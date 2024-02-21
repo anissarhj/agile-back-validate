@@ -44,10 +44,10 @@ public class RubriqueServiceImpl implements RubriqueService{
         if (rubriqueRepository.existsById(id)) {
             Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
             if (rubriqueRepository.existsByDesignationAndIdNot(rubrique.getDesignation(), id)) {
-                throw new DuplicateEntityException("Cette rubrique existe déjà");
+                throw new DuplicateEntityException("rubrique");
             }
             if (isRubriqueUsedInEvaluation(existingRubrique)) {
-                throw new UsedEntityException();
+                throw new UsedEntityException("rubrique");
             }
             rubrique.setId(id);
             if (rubrique.getNoEnseignant() == null) {
@@ -57,7 +57,7 @@ public class RubriqueServiceImpl implements RubriqueService{
             }
             return rubriqueRepository.save(rubrique);
         } else {
-            throw new NotFoundEntityException();
+            throw new NotFoundEntityException("rubrique");
         }
     }
 
@@ -75,7 +75,7 @@ public class RubriqueServiceImpl implements RubriqueService{
 
             return rubriqueRepository.save(existingRubrique);
         } else {
-            throw new NotFoundEntityException();
+            throw new NotFoundEntityException("rubrique");
         }
     }
 
@@ -84,11 +84,11 @@ public class RubriqueServiceImpl implements RubriqueService{
         if (rubriqueRepository.existsById(id)) {
             Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
             if (isRubriqueUsedInEvaluation(existingRubrique)) {
-                throw new UsedEntityException();
+                throw new UsedEntityException("rubrique");
             }
             rubriqueRepository.deleteById(id);
         } else {
-            throw new NotFoundEntityException();
+            throw new NotFoundEntityException("rubrique");
         }
     }
 
@@ -99,11 +99,11 @@ public class RubriqueServiceImpl implements RubriqueService{
             Integer id = optionalRubrique.get().getId();
             Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
             if (isRubriqueUsedInEvaluation(existingRubrique)) {
-                throw new UsedEntityException();
+                throw new UsedEntityException("rubrique");
             }
                 rubriqueRepository.deleteById(id);
         } else {
-            throw new NotFoundEntityException();
+            throw new NotFoundEntityException("rubrique");
         }
     }
 
